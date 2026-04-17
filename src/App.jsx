@@ -70,7 +70,11 @@ function App() {
             {messages.map((messages, index) => (
               <div
                 key={index}
-                className={`mb-2 p-2 rounded ${messages.role === "user" ? "bg-blue-600 text-white self-end" : "bg-gray-300 text-gray-800 self-start"}`}
+                className={`mb-2 p-2 rounded max-w-[75%] ${
+  messages.role === "user" 
+    ? "bg-blue-600 text-white ml-auto" 
+    : "bg-gray-300 text-gray-800 mr-auto"
+}`}
               >
                 {messages.content}
               </div>
