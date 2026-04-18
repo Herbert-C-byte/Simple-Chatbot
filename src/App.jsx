@@ -1,9 +1,13 @@
 import { useState } from "react";
+import ChatWidget from "./components/chat-widget";
 
 function App() {
   const [ischatOpen, setIsChatOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [messages, setMessages] = useState([]);
+  const handleClose = () => {
+    setIsChatOpen(false);
+  };
   const handleSend = () => {
     if (inputValue === "") {
       return;
@@ -15,25 +19,31 @@ function App() {
 
   return (
     <>
-      <main className="h-screen w-screen bg-[linear-gradient(to_right, rgba(247,247,247,1)_0%,rgba(240,240,250,0.2)_50%,rgba(247,247,247,1)_100%)] flex flex-col items-center justify-center">
-        <div className=" bg-white p-2 flex flex-col items-center gap-2 max-w-3xl w-full">
-          <div className="flex flex-col gap-2 bg-fuchsia-600">
-            <h1 className="font-bold text-5xl ">Customer Support Chat</h1>
-            <p className="text-lg font-normal">
+      <main className="min-h-screen bg-linear-to-br from-background to-secondary/20 to-background flex flex-col items-center justify-center p-4 sm:p-6 md:p-8">
+        <div className=" bg-white p-2 flex flex-col items-center gap-2 max-w-2xl w-full text-center space-y-6">
+          <div className="space-y-3">
+            <h1 className="font-bold text-3xl sm:text-4xl md:text-5xl text-foreground">
+              Customer Support Chat
+            </h1>
+            <p className="text-base text-muted-foreground sm:text-lg">
               Click the chat button in the bottom right to start a conversation
               with our AI assistant
             </p>
           </div>
-          <div className="flex flex-col gap-2 bg-blue-600">
-            <h2 className="text-xl font-semibold">Features</h2>
-            <ul className="flex flex-col gap-2">
-              <li className="flex items-center gap-2">✅ 24/7 Availability</li>
-              <li className="flex items-center gap-2">✅ Instant Response</li>
-              <li className="flex items-center gap-2">✅ Multi-language Support</li>
+          <div className="bg-card p-6 rounded-xl sm:p-8 border border-border shadow-sm">
+            <h2 className="text-lg sm:text-xl font-semibold text-foreground mb-4">
+              Features
+            </h2>
+            <ul className="space-y-3 text-sm sm:text-base">
+              <li className="flex items-start gap-3">✅ 24/7 Availability</li>
+              <li className="flex items-start gap-3">✅ Instant Response</li>
+              <li className="flex items-start gap-3">
+                ✅ Multi-language Support
+              </li>
             </ul>
           </div>
-          <div className="p-6 rounded-xl bg-amber-900">
-            <p>
+          <div className="bg-secondary/50 rounded-xl p-6 sm:p-8 border border-border">
+            <p className="text-xs sm:text-sm text-secondary-foreground">
               This is a demo. Start chatting to see the widget in action. The AI
               will respond to your questions in real-time.
             </p>
@@ -50,53 +60,13 @@ function App() {
         </button>
       )}
       {ischatOpen && (
-        <div className="fixed bottom-4 right-4 w-80 h-96 bg-white rounded-lg shadow-lg flex flex-col">
-          <div className="p-4 border-b bg-blue-400 flex items-center justify-between relative">
-            <h3 className="font-bold text-lg">Customer Support</h3>
-            <button
-              className="absolute right-2 rounded-xs bg-blue-600 text-black hover:text-gray-800"
-              onClick={() => setIsChatOpen(false)}
-            >
-              Close
-            </button>
-          </div>
-          <div className="flex-1 p-4 overflow-y-auto bg-blue-200">
-            {!messages.length && (
-              <p>
-                Welcome to our customer support chat! How can we assist you
-                today?
-              </p>
-            )}
-            {messages.map((messages, index) => (
-              <div
-                key={index}
-                className={`mb-2 p-2 rounded max-w-[75%] ${
-  messages.role === "user" 
-    ? "bg-blue-600 text-white ml-auto" 
-    : "bg-gray-300 text-gray-800 mr-auto"
-}`}
-              >
-                {messages.content}
-              </div>
-            ))}
-          </div>
-          <div className="p-4 border-t bg-blue-600 flex items-center gap-2">
-            <input
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSend()}
-              placeholder="Type your message..."
-              className="w-full p-2 border rounded"
-            />
-            <button
-              className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
-              onClick={handleSend}
-            >
-              Send
-            </button>
-          </div>
-        </div>
+        <ChatWidget
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          messages={messages}
+          handleSend={handleSend}
+          handleClose={handleClose}
+        />
       )}
     </>
   );
