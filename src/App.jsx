@@ -21,27 +21,17 @@ function App() {
       setInputValue("");
 
       try {
-        setIsLoading(true);
-        const response = await fetch("https://api.anthropic.com/v1/messages", {
+        const response = await fetch("http://localhost:3001/api/chat", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            model: "claude-sonnet-4-20250514",
-            max_tokens: 1000,
-            system:
-              "You are a helpful customer support assistant. Be concise and friendly.",
-            messages: updatedMessages,
-          }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages: updatedMessages }),
         });
 
         const data = await response.json();
-        const assistantMessage = data.content[0].text;
 
         setMessages([
           ...updatedMessages,
-          { role: "assistant", content: assistantMessage },
+          { role: "assistant", content: data.reply },
         ]);
       } catch (error) {
         console.log("erro ao chamar api", error);

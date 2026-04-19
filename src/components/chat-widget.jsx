@@ -7,9 +7,15 @@ export default function ChatWidget({
   isLoading,
 }) {
   return (
-    <div className="fixed bottom-4 right-4 w-80 h-96 bg-white rounded-lg shadow-lg flex flex-col">
-      <div className="p-4 border-b bg-blue-400 flex items-center justify-between relative">
-        <h3 className="font-bold text-lg">Customer Support</h3>
+    <div className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 w-full max-w-sm h-150 sm:h-125 rounded-2xl shadow-2xl bg-card flex flex-col z-40 border border-border animate-in slide-in-from-bottom-4 duration-300">
+      <div className="p-4 sm:p-5 border-b bg-primary text-primary-foreground flex items-center justify-between relative rounded-t-2xl">
+        <div className="flex items-center gap-3">
+          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-green-400 rounded-full"></div>
+          <div>
+            <h3 className="font-semibold text-sm sm:text-base">Support</h3>
+            <p className="text-xs opacity-90">Always here to help</p>
+          </div>
+        </div>
         <button
           className="absolute right-2 rounded-xs bg-blue-600 text-black hover:text-gray-800"
           onClick={() => handleClose()}
@@ -17,22 +23,33 @@ export default function ChatWidget({
           Close
         </button>
       </div>
-      <div className="flex-1 p-4 overflow-y-auto bg-blue-200">
+      <div className="flex-1 p-4 overflow-y-auto sm:p-5 space-y-3 sm:space-y-4 bg-background">
         {!messages.length && (
-          <p>
-            Welcome to our customer support chat! How can we assist you today?
-          </p>
+          <div className="flex items-center justify-center h-full text-center">
+            <div className="space-y-2">
+              <div className="w-12 h-12 bg-gray-300 rounded-full mx-auto"></div>
+              <p className="text-sm sm:text-base text-muted-foreground">
+                Hi! 👋 How can we help?
+              </p>
+            </div>
+          </div>
         )}
         {messages.map((messages, index) => (
           <div
             key={index}
-            className={`mb-2 p-2 rounded max-w-[75%] ${
-              messages.role === "user"
-                ? "bg-blue-600 text-white ml-auto"
-                : "bg-gray-300 text-gray-800 mr-auto"
+            className={`flex ${
+              messages.role === "user" ? "justify-end" : "justify-start"
             }`}
           >
-            {messages.content}
+            <div
+              className={`max-w-xs px-4 py-2 rounded-lg text-sm sm:text-base leading-relaxed ${
+                messages.role === "user"
+                  ? "bg-primary text-primary-foreground rounded-br-none"
+                  : "bg-secondary text-secondary-foreground rounded-bl-none"
+              }`}
+            >
+              {messages.content}
+            </div>
           </div>
         ))}
       </div>
