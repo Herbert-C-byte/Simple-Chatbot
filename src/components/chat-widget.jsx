@@ -4,6 +4,7 @@ export default function ChatWidget({
   setInputValue,
   handleSend,
   handleClose,
+  isLoading,
 }) {
   return (
     <div className="fixed bottom-4 right-4 w-80 h-96 bg-white rounded-lg shadow-lg flex flex-col">

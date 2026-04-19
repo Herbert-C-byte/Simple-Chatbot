@@ -5,15 +5,49 @@ function App() {
   const [ischatOpen, setIsChatOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [messages, setMessages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const handleClose = () => {
     setIsChatOpen(false);
   };
-  const handleSend = () => {
+  const handleSend = async () => {
     if (inputValue === "") {
       return;
     } else {
-      setMessages([...messages, { role: "user", content: inputValue }]);
+      const updatedMessages = [
+        ...messages,
+        { role: "user", content: inputValue },
+      ];
+      setMessages(updatedMessages);
       setInputValue("");
+
+      try {
+        setIsLoading(true);
+        const response = await fetch("https://api.anthropic.com/v1/messages", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: "claude-sonnet-4-20250514",
+            max_tokens: 1000,
+            system:
+              "You are a helpful customer support assistant. Be concise and friendly.",
+            messages: updatedMessages,
+          }),
+        });
+
+        const data = await response.json();
+        const assistantMessage = data.content[0].text;
+
+        setMessages([
+          ...updatedMessages,
+          { role: "assistant", content: assistantMessage },
+        ]);
+      } catch (error) {
+        console.log("erro ao chamar api", error);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -66,6 +100,7 @@ function App() {
           messages={messages}
           handleSend={handleSend}
           handleClose={handleClose}
+          isLoading={isLoading}
         />
       )}
     </>
