@@ -1,16 +1,96 @@
-# React + Vite
+# 💬 Simple Chatbot
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern and responsive customer support chatbot built with React + Vite on the frontend and Express.js on the backend. Uses AI API integration for intelligent response generation.
 
-Currently, two official plugins are available:
+## 🌟 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- ✨ **Modern responsive interface** - Floating chat widget with intuitive design
+- 🤖 **AI integration** - Powered by advanced language models
+- 📱 **Mobile-first** - Fully optimized for mobile devices
+- 🎨 **Tailwind CSS** - Modern and customizable styling
+- ⚡ **Vite** - Fast build and hot module replacement (HMR)
+- 🔒 **CORS configured** - Security in frontend-backend communication
+- 🚀 **Easy to use** - Simple setup and rapid development
 
-## React Compiler
+## 📋 Prerequisites
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Node.js** (v16+)
+- **npm** or **yarn**
+- **API Key** (for AI service integration)
 
-## Expanding the ESLint configuration
+## 🚀 Installation
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. **Install dependencies**
+
+```bash
+npm install
+```
+
+2. **Configure environment variables**
+   Create a `.env` file in the project root.
+
+## 💻 Development
+
+### Run frontend and backend together
+
+```bash
+npm run dev:all
+```
+
+### Run frontend only
+
+```bash
+npm run dev
+```
+
+### Run backend only
+
+```bash
+npm run server
+```
+
+## API
+
+### POST `/api/chat`
+
+Send a message to the chatbot and receive a response.
+
+**Request:**
+
+```json
+{
+  "messages": [{ "role": "user", "content": "Hello, how can I help?" }]
+}
+```
+
+**Response:**
+
+```json
+{
+  "reply": "Hello! I'm here to help with your inquiries."
+}
+```
+
+## 🎨 Customization
+
+Modify the chatbot behavior by editing the server configuration and adjusting the system prompts as needed.
+
+## 🚀 Deployment
+
+### Frontend
+
+```bash
+npm run build
+```
+
+### Backend
+
+Deploy to your preferred hosting platform with proper environment configuration.
+
+## 📝 License
+
+This project is licensed under the MIT License.
+
+## 👨‍💻 Contributions
+
+Contributions are welcome!
