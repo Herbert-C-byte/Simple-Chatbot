@@ -1,96 +1,68 @@
-# 💬 Simple Chatbot
+# Simple Chatbot Widget
 
-A modern and responsive customer support chatbot built with React + Vite on the frontend and Express.js on the backend. Uses AI API integration for intelligent response generation.
+A lightweight AI-powered chat widget built for customer support. Features a
+fallback system across 3 AI models — if one fails, the next takes over
+automatically.
 
-## 🌟 Features
+**Stack:** React + Tailwind CSS (frontend) · Node.js + Express (backend) ·
+OpenRouter API (AI layer)
 
-- ✨ **Modern responsive interface** - Floating chat widget with intuitive design
-- 🤖 **AI integration** - Powered by advanced language models
-- 📱 **Mobile-first** - Fully optimized for mobile devices
-- 🎨 **Tailwind CSS** - Modern and customizable styling
-- ⚡ **Vite** - Fast build and hot module replacement (HMR)
-- 🔒 **CORS configured** - Security in frontend-backend communication
-- 🚀 **Easy to use** - Simple setup and rapid development
+---
 
-## 📋 Prerequisites
+## Features
 
-- **Node.js** (v16+)
-- **npm** or **yarn**
-- **API Key** (for AI service integration)
+- Real-time chat interface
+- AI fallback system (3 models in sequence)
+- Loading states and smooth auto-scroll
+- Easy to embed and configure
 
-## 🚀 Installation
+---
 
-1. **Install dependencies**
+## Setup
+
+### Prerequisites
+- Node.js installed
+- An [OpenRouter](https://openrouter.ai) API key
+
+### Installation
 
 ```bash
+git clone https://github.com/Herbert-C-byte/simple-chatbot
+cd simple-chatbot
 npm install
 ```
 
-2. **Configure environment variables**
-   Create a `.env` file in the project root.
+### Environment
 
-## 💻 Development
+Create a `.env` file in the root:
+OPENROUTER_API_KEY=your_key_here
+### Running
 
-### Run frontend and backend together
-
-```bash
-npm run dev:all
-```
-
-### Run frontend only
+Open two terminals:
 
 ```bash
+# Terminal 1 — frontend
 npm run dev
-```
 
-### Run backend only
-
-```bash
+# Terminal 2 — backend
 npm run server
 ```
 
-## API
+App runs at `http://localhost:5173`
 
-### POST `/api/chat`
+---
 
-Send a message to the chatbot and receive a response.
+## Project Structure
+simple-chatbot/
+├── server/
+│   └── index.js        # Express server + AI integration
+├── src/
+│   ├── components/
+│   │   └── chat-widget.jsx
+│   └── App.jsx
+└── .env                # Not committed — create locally
+---
 
-**Request:**
+## Issues
 
-```json
-{
-  "messages": [{ "role": "user", "content": "Hello, how can I help?" }]
-}
-```
-
-**Response:**
-
-```json
-{
-  "reply": "Hello! I'm here to help with your inquiries."
-}
-```
-
-## 🎨 Customization
-
-Modify the chatbot behavior by editing the server configuration and adjusting the system prompts as needed.
-
-## 🚀 Deployment
-
-### Frontend
-
-```bash
-npm run build
-```
-
-### Backend
-
-Deploy to your preferred hosting platform with proper environment configuration.
-
-## 📝 License
-
-This project is licensed under the MIT License.
-
-## 👨‍💻 Contributions
-
-Contributions are welcome!
+Found a bug? Open an issue and I'll look into it.
