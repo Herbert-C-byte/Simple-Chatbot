@@ -1,4 +1,4 @@
-import { useRef, useEffect, use } from "react";
+import { useRef, useEffect } from "react";
 
 export default function ChatWidget({
   messages,
@@ -12,73 +12,87 @@ export default function ChatWidget({
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, isLoading]);
 
   return (
-    <div className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 w-full max-w-sm h-150 sm:h-125 rounded-2xl shadow-2xl bg-card flex flex-col z-40 border border-border animate-in slide-in-from-bottom-4 duration-300">
-      <div className="p-4 sm:p-5 border-b bg-primary text-primary-foreground flex items-center justify-between relative rounded-t-2xl">
+    <div className="fixed bottom-6 right-6 w-full max-w-sm h-[520px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden z-50">
+      
+      {/* HEADER */}
+      <div className="bg-green-600 text-white p-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-green-400 rounded-full"></div>
+          <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+            🤖
+          </div>
           <div>
-            <h3 className="font-semibold text-sm sm:text-base">Support</h3>
-            <p className="text-xs opacity-90">Always here to help</p>
+            <h3 className="font-semibold text-sm">Assistente</h3>
+            <p className="text-xs opacity-80">
+              {isLoading ? "A escrever..." : "Online"}
+            </p>
           </div>
         </div>
-        <button
-          className="absolute right-2 rounded-xs bg-blue-600 text-black hover:text-gray-800"
-          onClick={() => handleClose()}
-        >
-          Close
+
+        <button onClick={handleClose} className="text-sm opacity-80 hover:opacity-100">
+          ✕
         </button>
       </div>
-      <div className="flex-1 p-4 overflow-y-auto sm:p-5 space-y-3 sm:space-y-4 bg-background">
+
+      {/* MESSAGES */}
+      <div className="flex-1 bg-[#ece5dd] p-4 overflow-y-auto space-y-3">
         {!messages.length && (
-          <div className="flex items-center justify-center h-full text-center">
-            <div className="space-y-2">
-              <div className="w-12 h-12 bg-gray-300 rounded-full mx-auto"></div>
-              <p className="text-sm sm:text-base text-muted-foreground">
-                Hi! 👋 How can we help?
-              </p>
-            </div>
-          </div>
+          <p className="text-center text-sm text-gray-500 mt-10">
+            👋 Olá! Como posso ajudar?
+          </p>
         )}
-        {messages.map((messages, index) => (
+
+        {messages.map((msg, index) => (
           <div
             key={index}
             className={`flex ${
-              messages.role === "user" ? "justify-end" : "justify-start"
+              msg.role === "user" ? "justify-end" : "justify-start"
             }`}
           >
             <div
-              className={`max-w-xs px-4 py-2 rounded-lg text-sm sm:text-base leading-relaxed ${
-                messages.role === "user"
-                  ? "bg-primary text-primary-foreground rounded-br-none"
-                  : "bg-secondary text-secondary-foreground rounded-bl-none"
+              className={`px-4 py-2 rounded-2xl text-sm max-w-[70%] ${
+                msg.role === "user"
+                  ? "bg-green-500 text-white rounded-br-none"
+                  : "bg-white text-black rounded-bl-none shadow"
               }`}
             >
-              {messages.content}
+              {msg.content}
             </div>
           </div>
         ))}
 
+        {/* Typing indicator */}
+        {isLoading && (
+          <div className="flex justify-start">
+            <div className="bg-white px-4 py-2 rounded-2xl text-sm shadow">
+              ...
+            </div>
+          </div>
+        )}
+
         <div ref={messagesEndRef} />
       </div>
-      <div className="p-4 border-t bg-blue-600 flex items-center gap-2">
+
+      {/* INPUT */}
+      <div className="p-3 bg-gray-100 flex items-center gap-2">
         <input
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
+          placeholder="Escreve uma mensagem..."
           disabled={isLoading}
-          placeholder="Type your message..."
-          className="w-full p-2 border rounded"
+          className="flex-1 px-4 py-2 rounded-full border outline-none text-sm"
         />
+
         <button
-          className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
           onClick={handleSend}
           disabled={isLoading}
+          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full text-sm"
         >
-          {isLoading ? "..." : "Send"}
+          ➤
         </button>
       </div>
     </div>

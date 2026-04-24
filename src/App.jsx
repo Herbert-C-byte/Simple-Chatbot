@@ -6,84 +6,87 @@ function App() {
   const [inputValue, setInputValue] = useState("");
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const handleClose = () => {
-    setIsChatOpen(false);
-  };
-  const handleSend = async () => {
-    if (inputValue === "") {
-      return;
-    } else {
-      const updatedMessages = [
-        ...messages,
-        { role: "user", content: inputValue },
-      ];
-      setMessages(updatedMessages);
-      setInputValue("");
 
-      try {
-        setIsLoading(true);
-        const response = await fetch("https://simple-chatbot-server-production.up.railway.app/api/chat", {
+  const handleClose = () => setIsChatOpen(false);
+
+  const handleSend = async () => {
+    if (!inputValue.trim()) return;
+
+    const updatedMessages = [
+      ...messages,
+      { role: "user", content: inputValue },
+    ];
+
+    setMessages(updatedMessages);
+    setInputValue("");
+
+    try {
+      setIsLoading(true);
+
+      const response = await fetch(
+        "https://simple-chatbot-server-production.up.railway.app/api/chat",
+        {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ messages: updatedMessages }),
-        });
+        }
+      );
 
-        const data = await response.json();
+      const data = await response.json();
 
-        setMessages([
-          ...updatedMessages,
-          { role: "assistant", content: data.reply },
-        ]);
-      } catch (error) {
-        console.log("erro ao chamar api", error);
-      } finally {
-        setIsLoading(false);
-      }
+      setMessages([
+        ...updatedMessages,
+        { role: "assistant", content: data.reply },
+      ]);
+    } catch (error) {
+      console.log("erro ao chamar api", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <>
-      <main className="min-h-screen bg-linear-to-br from-background to-secondary/20 to-background flex flex-col items-center justify-center p-4 sm:p-6 md:p-8">
-        <div className=" bg-white p-2 flex flex-col items-center gap-2 max-w-2xl w-full text-center space-y-6">
-          <div className="space-y-3">
-            <h1 className="font-bold text-3xl sm:text-4xl md:text-5xl text-foreground">
-              Customer Support Chat
-            </h1>
-            <p className="text-base text-muted-foreground sm:text-lg">
-              Click the chat button in the bottom right to start a conversation
-              with our AI assistant
-            </p>
+      <main className="min-h-screen bg-background flex flex-col items-center justify-center px-6 text-center">
+        <div className="max-w-3xl space-y-8">
+          <h1 className="text-4xl sm:text-5xl font-bold">
+            Atendimento Inteligente com IA
+          </h1>
+
+          <p className="text-lg text-muted-foreground">
+            Automatiza o suporte ao cliente com um chatbot integrado ao teu site.
+            Respostas instantâneas, disponíveis 24/7, com uma experiência fluida
+            semelhante ao WhatsApp.
+          </p>
+
+          <div className="grid sm:grid-cols-3 gap-4 text-sm">
+            <div className="p-4 border rounded-xl bg-card">
+              ⚡ Respostas em tempo real
+            </div>
+            <div className="p-4 border rounded-xl bg-card">
+              🌍 Suporte multi-idioma
+            </div>
+            <div className="p-4 border rounded-xl bg-card">
+              🤖 Automatização inteligente
+            </div>
           </div>
-          <div className="bg-card p-6 rounded-xl sm:p-8 border border-border shadow-sm">
-            <h2 className="text-lg sm:text-xl font-semibold text-foreground mb-4">
-              Features
-            </h2>
-            <ul className="space-y-3 text-sm sm:text-base">
-              <li className="flex items-start gap-3">✅ 24/7 Availability</li>
-              <li className="flex items-start gap-3">✅ Instant Response</li>
-              <li className="flex items-start gap-3">
-                ✅ Multi-language Support
-              </li>
-            </ul>
-          </div>
-          <div className="bg-secondary/50 rounded-xl p-6 sm:p-8 border border-border">
-            <p className="text-xs sm:text-sm text-secondary-foreground">
-              This is a demo. Start chatting to see the widget in action. The AI
-              will respond to your questions in real-time.
-            </p>
-          </div>
+
+          <p className="text-sm text-muted-foreground">
+            👉 Abre o chat no canto inferior direito e testa a experiência.
+          </p>
         </div>
       </main>
-      {/* Chat Widget */}
+
+      {/* Botão estilo WhatsApp */}
       {!ischatOpen && (
         <button
-          className="fixed bottom-4 right-4 bg-blue-600 text-white p-6 rounded-full shadow-lg hover:bg-blue-700 z-10 transition-colors hover:animate-pulse "
           onClick={() => setIsChatOpen(true)}
+          className="fixed bottom-6 right-6 w-16 h-16 rounded-full bg-green-500 hover:bg-green-600 text-white shadow-xl flex items-center justify-center text-xl transition"
         >
-          Chat
+          💬
         </button>
       )}
+
       {ischatOpen && (
         <ChatWidget
           inputValue={inputValue}
