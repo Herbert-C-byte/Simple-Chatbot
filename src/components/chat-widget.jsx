@@ -15,7 +15,7 @@ export default function ChatWidget({
   }, [messages, isLoading]);
 
   return (
-    <div className="fixed bottom-6 right-6 w-full max-w-sm h-[85vh] sm:h-[130] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden z-50">
+    <div className="fixed bottom-0 right-0 w-full sm:bottom-6 sm:right-6 sm:max-w-sm h-[85vh] sm:h-[520px] bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden z-50">
       
       {/* HEADER */}
       <div className="bg-green-600 text-white p-4 flex items-center justify-between">
